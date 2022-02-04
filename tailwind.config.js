@@ -4,7 +4,11 @@ module.exports = {
     './components/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        Kumbh: ['Kumbh Sans', 'sans-serif'],
+      },
+    },
   },
   plugins: [],
 }
