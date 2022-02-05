@@ -1,6 +1,5 @@
 import { useReactiveVar } from '@apollo/client'
 import { useState } from 'react'
-import { arrayBuffer } from 'stream/consumers'
 import { cartItemsVar } from '../graphql/cache'
 import Cart from '../public/icon-cart.svg'
 import Close from '../public/icon-close.svg'
