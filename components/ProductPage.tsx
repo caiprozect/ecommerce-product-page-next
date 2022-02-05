@@ -36,6 +36,7 @@ function ProductPage() {
 
   const addToCart = () => {
     if (amount === 0) return
+    setAmount(0)
     cartItemsVar([...cartItemsVar(), amount])
   }
 
@@ -97,7 +98,7 @@ function ProductPage() {
 
           <div
             onClick={addToCart}
-            className="-mx-1 flex h-16 items-center justify-center space-x-4 rounded-xl bg-[#ff7d1a] shadow-md"
+            className="-mx-1 flex h-16 items-center justify-center space-x-4 rounded-xl bg-[#ff7d1a] shadow-md transition-transform ease-out active:scale-95"
           >
             <Cart fill="#ffede0" className="scale-90" />
             <p className="font-bold text-[#ffede0]">Add to cart</p>

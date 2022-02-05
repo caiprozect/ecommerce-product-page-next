@@ -1,5 +1,6 @@
 import { useReactiveVar } from '@apollo/client'
 import { useState } from 'react'
+import { arrayBuffer } from 'stream/consumers'
 import { cartItemsVar } from '../graphql/cache'
 import Cart from '../public/icon-cart.svg'
 import Close from '../public/icon-close.svg'
@@ -10,6 +11,12 @@ function Header() {
   const [showCart, setShowCart] = useState(false)
 
   const cartItems = useReactiveVar(cartItemsVar)
+
+  const deleteItem = (event) => {
+    let newItems = [...cartItemsVar()]
+    newItems.splice(parseInt(event.target.id), 1)
+    cartItemsVar(newItems)
+  }
 
   const toggleMenu = () => {
     if (!showCart) {
@@ -38,8 +45,13 @@ function Header() {
         <div className="flex-grow">
           <img src="/logo.svg" alt="" />
         </div>
-        <div className="flex items-center space-x-6">
+        <div className="relative flex items-center space-x-6">
           <Cart onClick={toggleCart} fill={showCart ? '#000000' : '#69707D'} />
+          {cartItems.length === 0 ? null : (
+            <span className="absolute -left-4 -top-1 flex h-4 w-5 items-center justify-center rounded-full bg-[#ff7d1a] text-xs font-bold text-[#ffede0]">
+              {cartItems.reduce((acc, cur, i) => acc + cur, 0)}
+            </span>
+          )}
           <img className="h-7 object-contain" src="/image-avatar.png" alt="" />
         </div>
       </section>
@@ -70,30 +82,34 @@ function Header() {
                   Your cart is empty.
                 </p>
               ) : (
-                <div className="w-full">
-                  {cartItems.map((amount, idx) => (
-                    <div
-                      key={idx}
-                      className="flex w-full items-center space-x-2 px-6"
-                    >
-                      <img
-                        className="h-16"
-                        src="/image-product-1-thumbnail.jpg"
-                        alt=""
-                      />
-                      <div className="flex-grow">
-                        <p className="w-40 truncate">
-                          Fall Limited Edition Snearkers
-                        </p>
-                        <div className="flex space-x-3">
-                          <p>$125.00 x {amount}</p>
-                          <p>${amount * 125}.00</p>
+                <div className="relative mt-4 grid h-full w-full grid-rows-2 space-y-2 px-6">
+                  <div className="h-3/5 space-y-2 overflow-scroll">
+                    {cartItems.map((amount, idx) => (
+                      <div
+                        key={idx}
+                        className="flex w-full items-center space-x-2"
+                      >
+                        <img
+                          className="h-14 rounded-lg"
+                          src="/image-product-1-thumbnail.jpg"
+                          alt=""
+                        />
+                        <div className="h-14 flex-grow space-y-1 text-[#68707d]">
+                          <p className="w-40 truncate">
+                            Fall Limited Edition Snearkers
+                          </p>
+                          <div className="flex space-x-3">
+                            <p>$125.00 x {amount}</p>
+                            <p className="font-bold text-[#1d2025]">
+                              ${amount * 125}.00
+                            </p>
+                          </div>
                         </div>
+                        <Delete id={idx} onClick={deleteItem} />
                       </div>
-                      <Delete />
-                    </div>
-                  ))}
-                  <div className="m-6 flex h-16 items-center justify-center bg-[#ff7d1a] text-[#ffede0]">
+                    ))}
+                  </div>
+                  <div className="fixed top-64 -ml-1 flex h-16 w-80 items-center justify-center rounded-lg bg-[#ff7d1a] font-bold text-[#ffede0]">
                     <p>Checkout</p>
                   </div>
                 </div>
