@@ -6,27 +6,64 @@ import Next from '../public/icon-next.svg'
 import Minus from '../public/icon-minus.svg'
 import Plus from '../public/icon-plus.svg'
 import Cart from '../public/icon-cart.svg'
+import { useState } from 'react'
+
+import { useReactiveVar } from '@apollo/client'
+import { cartItemsVar } from '../graphql/cache'
 
 function ProductPage() {
+  const [imgIdx, setImgIdx] = useState(1)
+  const [amount, setAmount] = useState(0)
+  const cartItems = useReactiveVar(cartItemsVar)
+
+  const addIdx = () => {
+    setImgIdx(((imgIdx - 1 + 1) % 4) + 1)
+  }
+  const subIdx = () => {
+    setImgIdx(((imgIdx - 2 + 4) % 4) + 1)
+  }
+
+  const addAmount = () => {
+    setAmount(amount + 1)
+  }
+  const subAmount = () => {
+    if (amount === 0) {
+      return
+    } else {
+      setAmount(amount - 1)
+    }
+  }
+
+  const addToCart = () => {
+    if (amount === 0) return
+    cartItemsVar([...cartItemsVar(), amount])
+  }
+
   return (
-    <>
+    <div className="pb-6">
       <Header />
 
-      <main className="h-screen">
-        <section className="relative flex h-1/2 items-center">
+      <main className="min-h-screen">
+        <section className="relative flex h-80 items-center">
           <Image
             className="absolute"
-            src="/image-product-1.jpg"
+            src={`/image-product-${imgIdx}.jpg`}
             alt=""
             layout="fill"
             objectFit="cover"
           />
           <div className="flex w-screen items-center justify-between px-6">
-            <div className="z-10 flex h-8 w-8 items-center rounded-full bg-[#ffede0]">
-              <Previous stroke-width="4" className="ml-2 scale-75" />
+            <div
+              onClick={subIdx}
+              className="z-10 flex h-8 w-8 items-center rounded-full bg-[#ffede0]"
+            >
+              <Previous strokeWidth="4" className="ml-2 scale-75" />
             </div>
-            <div className="z-10 flex h-8 w-8 items-center rounded-full bg-[#ffede0]">
-              <Next stroke-width="4" className="ml-2.5 scale-75" />
+            <div
+              onClick={addIdx}
+              className="z-10 flex h-8 w-8 items-center rounded-full bg-[#ffede0]"
+            >
+              <Next strokeWidth="4" className="ml-2.5 scale-75" />
             </div>
           </div>
         </section>
@@ -53,18 +90,21 @@ function ProductPage() {
           </div>
 
           <div className="flex items-center justify-between px-4 pb-4 pt-6">
-            <Minus />
-            <p className="font-bold">0</p>
-            <Plus />
+            <Minus onClick={subAmount} />
+            <p className="font-bold">{amount}</p>
+            <Plus onClick={addAmount} />
           </div>
 
-          <div className="-mx-1 flex h-16 items-center justify-center space-x-4 rounded-xl bg-[#ff7d1a]">
+          <div
+            onClick={addToCart}
+            className="-mx-1 flex h-16 items-center justify-center space-x-4 rounded-xl bg-[#ff7d1a] shadow-md"
+          >
             <Cart fill="#ffede0" className="scale-90" />
             <p className="font-bold text-[#ffede0]">Add to cart</p>
           </div>
         </section>
       </main>
-    </>
+    </div>
   )
 }
 
