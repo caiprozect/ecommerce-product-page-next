@@ -6,6 +6,8 @@ import Next from '../public/icon-next.svg'
 import Minus from '../public/icon-minus.svg'
 import Plus from '../public/icon-plus.svg'
 import Cart from '../public/icon-cart.svg'
+import Close from '../public/icon-close.svg'
+
 import { useState } from 'react'
 
 import { useReactiveVar } from '@apollo/client'
@@ -14,6 +16,7 @@ import { cartItemsVar } from '../graphql/cache'
 function ProductPage() {
   const [imgIdx, setImgIdx] = useState(1)
   const [amount, setAmount] = useState(0)
+  const [showLB, setShowLB] = useState(false)
   const cartItems = useReactiveVar(cartItemsVar)
 
   const addIdx = () => {
@@ -44,19 +47,87 @@ function ProductPage() {
     setImgIdx(parseInt(event.target.id))
   }
 
+  const toggleLB = () => setShowLB(!showLB)
+
   return (
     <div className="pb-6 md:pb-24">
+      {showLB && (
+        <div className="min-w-screen fixed z-50 flex h-full min-h-screen w-full flex-col items-center justify-center bg-black bg-opacity-75">
+          <div className="flex w-[36rem] justify-end pb-4">
+            <Close
+              onClick={toggleLB}
+              className="scale-150 cursor-pointer fill-white hover:fill-[#ff7d1a]"
+            />
+          </div>
+          <div className="relative h-[40rem] w-[36rem]">
+            <Image
+              className="rounded-2xl object-cover"
+              src={`/image-product-${imgIdx}.jpg`}
+              layout="fill"
+            />
+
+            <div className="fixed mt-[18rem] -ml-[2rem] h-[4rem] w-[4rem] cursor-pointer rounded-full bg-white shadow-md">
+              <div
+                onClick={subIdx}
+                className="realtive flex h-full w-full items-center justify-center stroke-[#1D2026] hover:stroke-[#ff7d1a]"
+              >
+                <Previous strokeWidth="3" className="scale-110" />
+              </div>
+            </div>
+
+            <div className="fixed mt-[18rem] ml-[34rem] h-[4rem] w-[4rem] cursor-pointer rounded-full bg-white shadow-md">
+              <div
+                onClick={addIdx}
+                className="realtive flex h-full w-full items-center justify-center stroke-[#1D2026] hover:stroke-[#ff7d1a]"
+              >
+                <Next strokeWidth="3" className="scale-110" />
+              </div>
+            </div>
+          </div>
+          <div className="flex h-[10rem] w-[36rem] items-center justify-around px-6">
+            {Array(4)
+              .fill(null)
+              .map((_, i) => (
+                <div
+                  key={i}
+                  className={`relative h-[6rem] w-[6rem] cursor-pointer rounded-xl border-[#ff7d1a] ${
+                    i + 1 === imgIdx
+                      ? 'border-4 opacity-75'
+                      : 'hover:opacity-75'
+                  }`}
+                >
+                  <Image
+                    onClick={changeImg}
+                    id={`${i + 1}`}
+                    className="rounded-xl object-cover"
+                    src={`/image-product-${i + 1}-thumbnail.jpg`}
+                    layout="fill"
+                  />
+                </div>
+              ))}
+          </div>
+        </div>
+      )}
       <Header />
 
       <main className="min-h-screen md:mx-auto md:mt-24 md:grid md:h-[64vh] md:min-h-0 md:max-w-screen-2xl md:grid-cols-12 md:px-20">
         <section className="relative flex h-80 items-center md:col-span-5 md:col-start-1 md:grid md:h-full md:grid-rows-5">
           <div className="relative h-full w-full md:row-span-4">
             <Image
-              className="absolute object-cover md:relative md:rounded-2xl"
+              className="absolute object-cover md:hidden md:rounded-2xl"
               src={`/image-product-${imgIdx}.jpg`}
               alt=""
               layout="fill"
             />
+
+            <Image
+              onClick={toggleLB}
+              className="hidden rounded-2xl object-cover md:relative"
+              src={`/image-product-${imgIdx}.jpg`}
+              alt=""
+              layout="fill"
+            />
+
             <div className="flex h-full w-screen items-center justify-between px-6 md:hidden">
               <div
                 onClick={subIdx}

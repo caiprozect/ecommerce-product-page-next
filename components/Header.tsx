@@ -79,7 +79,7 @@ function Header() {
             </span>
           )}
           <img
-            className="box-content h-7 cursor-pointer rounded-full border-4 border-white object-contain hover:border-[#ff7d1a] md:h-14"
+            className="box-content h-7 cursor-pointer rounded-full object-contain hover:border-[#ff7d1a] md:h-14 md:border-4 md:border-white"
             src="/image-avatar.png"
             alt=""
           />
