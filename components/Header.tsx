@@ -31,9 +31,9 @@ function Header() {
   }
 
   return (
-    <div className="relative pb-20">
-      <section className="fixed z-20 flex h-20 w-screen items-center space-x-6 bg-[#ffede0] px-6 pt-4">
-        <div>
+    <div className="relative flex justify-center pb-20 md:pb-32">
+      <section className="fixed z-20 mx-auto flex h-20 w-screen items-center space-x-6 bg-[#ffede0] px-6 pt-4 md:h-32 md:max-w-screen-2xl md:border-b-4 md:border-b-[#f7f8fd] md:bg-white md:pt-0">
+        <div className="md:hidden">
           <img
             onClick={toggleMenu}
             className="h-4 object-contain"
@@ -41,17 +41,44 @@ function Header() {
             alt=""
           />
         </div>
-        <div className="flex-grow">
-          <img src="/logo.svg" alt="" />
+        <div className="flex-grow md:flex-grow-0">
+          <img className="md:h-6" src="/logo.svg" alt="" />
         </div>
-        <div className="relative flex items-center space-x-6">
-          <Cart onClick={toggleCart} fill={showCart ? '#000000' : '#69707D'} />
+
+        <div className="hidden flex-grow items-center space-x-8 pl-8 text-lg text-[#68707d] md:flex">
+          <p className="cursor-pointer hover:mt-1 hover:border-b-4 hover:border-b-[#ff7d1a] hover:py-12 hover:font-bold hover:text-[#1d2025]">
+            Collections
+          </p>
+          <p className="cursor-pointer hover:mt-1 hover:border-b-4 hover:border-b-[#ff7d1a] hover:py-12 hover:font-bold hover:text-[#1d2025]">
+            Men
+          </p>
+          <p className="cursor-pointer hover:mt-1 hover:border-b-4 hover:border-b-[#ff7d1a] hover:py-12 hover:font-bold hover:text-[#1d2025]">
+            Women
+          </p>
+          <p className="cursor-pointer hover:mt-1 hover:border-b-4 hover:border-b-[#ff7d1a] hover:py-12 hover:font-bold hover:text-[#1d2025]">
+            About
+          </p>
+          <p className="cursor-pointer hover:mt-1 hover:border-b-4 hover:border-b-[#ff7d1a] hover:py-12 hover:font-bold hover:text-[#1d2025]">
+            Contact
+          </p>
+        </div>
+
+        <div className="relative flex items-center space-x-6 md:space-x-16">
+          <Cart
+            className="cursor-pointer hover:fill-black md:scale-125"
+            onClick={toggleCart}
+            fill={showCart ? '#000000' : '#69707D'}
+          />
           {cartItems.length === 0 ? null : (
             <span className="absolute -left-4 -top-1 flex h-4 w-5 items-center justify-center rounded-full bg-[#ff7d1a] text-xs font-bold text-[#ffede0]">
               {cartItems.reduce((acc, cur, i) => acc + cur, 0)}
             </span>
           )}
-          <img className="h-7 object-contain" src="/image-avatar.png" alt="" />
+          <img
+            className="box-content h-7 cursor-pointer rounded-full border-4 border-white object-contain hover:border-[#ff7d1a] md:h-14"
+            src="/image-avatar.png"
+            alt=""
+          />
         </div>
       </section>
 
@@ -71,8 +98,8 @@ function Header() {
       ) : null}
 
       {showCart ? (
-        <section className="fixed z-20 mt-20 w-screen">
-          <div className="mx-2 mt-2 flex h-64 flex-col rounded-xl bg-[#ffede0] shadow-md">
+        <section className="fixed z-20 mt-20 w-screen md:left-[70vw] md:mt-24 md:w-[25vw] md:text-lg">
+          <div className="mx-2 mt-2 flex h-64 flex-col rounded-xl bg-[#ffede0] shadow-md md:h-96 md:bg-white md:shadow-2xl">
             <h1 className="p-6 font-bold">Cart</h1>
             <hr />
             <div className="flex h-full flex-grow items-center">
