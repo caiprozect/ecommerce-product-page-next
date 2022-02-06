@@ -70,7 +70,11 @@ function Header() {
             fill={showCart ? '#000000' : '#69707D'}
           />
           {cartItems.length === 0 ? null : (
-            <span className="absolute -left-4 -top-1 flex h-4 w-5 items-center justify-center rounded-full bg-[#ff7d1a] text-xs font-bold text-[#ffede0]">
+            <span
+              className="absolute -left-4 -top-1 flex h-4 w-5 items-center 
+            justify-center rounded-full bg-[#ff7d1a] text-xs font-bold text-[#ffede0] 
+            md:-left-14 md:top-2 md:h-5 md:w-7 md:text-sm"
+            >
               {cartItems.reduce((acc, cur, i) => acc + cur, 0)}
             </span>
           )}
@@ -108,20 +112,20 @@ function Header() {
                   Your cart is empty.
                 </p>
               ) : (
-                <div className="relative mt-4 grid h-full w-full grid-rows-2 space-y-2 px-6">
-                  <div className="h-3/5 space-y-2 overflow-scroll">
+                <div className="relative mt-6 grid h-full w-full grid-rows-2 space-y-2 px-6 md:mt-12">
+                  <div className="h-3/5 space-y-2 overflow-scroll md:row-span-full md:overflow-x-hidden">
                     {cartItems.map((amount, idx) => (
                       <div
                         key={idx}
-                        className="flex w-full items-center space-x-2"
+                        className="flex w-full items-center space-x-2 md:pr-4"
                       >
                         <img
-                          className="h-14 rounded-lg"
+                          className="h-14 rounded-lg md:h-20"
                           src="/image-product-1-thumbnail.jpg"
                           alt=""
                         />
-                        <div className="h-14 flex-grow space-y-1 text-[#68707d]">
-                          <p className="w-40 truncate">
+                        <div className="h-14 flex-grow space-y-1 text-[#68707d] md:h-20 md:space-y-4 md:text-xl">
+                          <p className="w-40 truncate md:w-72">
                             Fall Limited Edition Snearkers
                           </p>
                           <div className="flex space-x-3">
@@ -131,11 +135,15 @@ function Header() {
                             </p>
                           </div>
                         </div>
-                        <Delete id={idx} onClick={deleteItem} />
+                        <Delete
+                          className="cursor-pointer md:scale-125"
+                          id={idx}
+                          onClick={deleteItem}
+                        />
                       </div>
                     ))}
                   </div>
-                  <div className="fixed top-64 -ml-1 flex h-16 w-80 items-center justify-center rounded-lg bg-[#ff7d1a] font-bold text-[#ffede0]">
+                  <div className="fixed top-64 -ml-1 flex h-16 w-80 cursor-pointer items-center justify-center rounded-lg bg-[#ff7d1a] font-bold text-[#ffede0] hover:opacity-75 md:top-96 md:w-[22vw]">
                     <p>Checkout</p>
                   </div>
                 </div>
