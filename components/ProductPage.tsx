@@ -8,7 +8,7 @@ import Plus from '../public/icon-plus.svg'
 import Cart from '../public/icon-cart.svg'
 import Close from '../public/icon-close.svg'
 
-import { useState } from 'react'
+import React, { useState } from 'react'
 
 import { useReactiveVar } from '@apollo/client'
 import { cartItemsVar } from '../graphql/cache'
@@ -43,8 +43,8 @@ function ProductPage() {
     cartItemsVar([...cartItemsVar(), amount])
   }
 
-  const changeImg = (event: { target: { id: string } }) => {
-    setImgIdx(parseInt(event.target.id))
+  const changeImg = (event: React.MouseEvent<HTMLImageElement>) => {
+    setImgIdx(parseInt((event.target as any).id))
   }
 
   const toggleLB = () => setShowLB(!showLB)
