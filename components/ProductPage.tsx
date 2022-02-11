@@ -43,7 +43,7 @@ function ProductPage() {
     cartItemsVar([...cartItemsVar(), amount])
   }
 
-  const changeImg = (event) => {
+  const changeImg = (event: { target: { id: string } }) => {
     setImgIdx(parseInt(event.target.id))
   }
 

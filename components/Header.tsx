@@ -11,7 +11,7 @@ function Header() {
 
   const cartItems = useReactiveVar(cartItemsVar)
 
-  const deleteItem = (event) => {
+  const deleteItem = (event: { target: { id: string } }) => {
     let newItems = [...cartItemsVar()]
     newItems.splice(parseInt(event.target.id), 1)
     cartItemsVar(newItems)
